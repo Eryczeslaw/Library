@@ -4,7 +4,7 @@ namespace Library.Models
 {
     public class LibraryManagerContext : DbContext
     {
-        public LibraryManagerContext(DbContextOptions options) : base(options)
+        public LibraryManagerContext(DbContextOptions<LibraryManagerContext> options) : base(options)
         {
         }
 

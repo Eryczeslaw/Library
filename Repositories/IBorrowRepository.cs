@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Library.Repositories
 {
-    interface IBorrowRepository
+    public interface IBorrowRepository
     {
         BorrowModel Get(int borrowId);
         IQueryable<BorrowModel> GetAllBooks();

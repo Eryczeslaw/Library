@@ -1,0 +1,80 @@
+﻿@page
+@model Library.Pages.User.IndexModel
+@{
+}
+
+<br />
+<div class="container row p-0 m-0">
+    <div class="col-10">
+        <h2 class="text-info">Users list</h2>
+    </div>
+    <div class="col-2">
+        <a asp-page="Add" class="btn btn-info form-control text-white">Add new user</a>
+    </div>
+
+    <div class="col-12 border p-3 mt3">
+        <form method="post">
+            @if (Model.Users.Count() > 0)
+            {
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
+                            <label>User Name</label>
+                        </th>
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().BirthDate"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().Email"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().Phone"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().AddDate"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Users.FirstOrDefault().ModifiedDate"></label>
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.FirstName)
+                                @Html.DisplayFor(modelItem => user.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.BirthDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.Phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.AddDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.ModifiedDate)
+                            </td>
+                            <td>
+                                <button asp-page-handler="Delete" asp-route-id="@user.UserId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                                <a asp-page="Edit" asp-route-id="@user.UserId" class="btn btn-success btn-sm text-white">Edit</a>
+                                <a asp-page="Details" asp-route-id="@user.UserId" class="btn btn-secondary btn-sm text-white">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>No user available</p>
+            }
+        </form>
+    </div>
+</div>

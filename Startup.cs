@@ -22,7 +22,8 @@ namespace Library
         {
             services.AddRazorPages();
             services.AddDbContext<LibraryManagerContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LibraryManagerDatabase")));
+                options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +50,7 @@ namespace Library
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }

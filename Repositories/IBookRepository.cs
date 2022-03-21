@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Library.Repositories
 {
-    interface IBookRepository
+    public interface IBookRepository
     {
         BookModel Get(int bookId);
         IQueryable<BookModel> GetAllBooks();
