@@ -1,0 +1,135 @@
+﻿@page
+@model Library.Pages.User.DetailsModel
+@{
+}
+
+<br />
+<div class="container row p-0 m-0">
+
+    <div class="col-12">
+        <h2 class="text-info">Details</h2>
+    </div>
+
+    <div class="col-12 p-2 mt3">
+        <form method="post">
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        <label>User Name</label>
+                    </th>
+                    <th>
+                        <label asp-for="User.BirthDate"></label>
+                    </th>
+                    <th>
+                        <label asp-for="User.Email"></label>
+                    </th>
+                    <th>
+                        <label asp-for="User.Phone"></label>
+                    </th>
+                    <th>
+                        <label asp-for="User.AddDate"></label>
+                    </th>
+                    <th>
+                        <label asp-for="User.ModifiedDate"></label>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.User.FirstName)
+                        @Html.DisplayFor(modelItem => Model.User.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.User.BirthDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.User.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.User.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.User.AddDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.User.ModifiedDate)
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div class="col-6">
+        <h2 class="text-info">List of books</h2>
+    </div>
+
+    <div class="col-6">
+        <h2 class="text-info">Hire history</h2>
+    </div>
+
+    <div class="col-6 p-2 mt3">
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>
+                    <label asp-for="Books.FirstOrDefault().Author"></label>
+                </th>
+                <th>
+                    <label asp-for="Books.FirstOrDefault().Title"></label>
+                </th>
+                <th>
+                    <label asp-for="Books.FirstOrDefault().BookGenreId"></label>
+                </th>
+            </tr>
+            @foreach (var book in Model.Books)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => book.Author)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => book.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => book.BookGenreId)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <div class="col-6 p-2 mt3">
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>
+                    <label asp-for="Borrows.FirstOrDefault().BookId"></label>
+                </th>
+                <th>
+                    <label asp-for="Borrows.FirstOrDefault().FromDate"></label>
+                </th>
+                <th>
+                    <label asp-for="Borrows.FirstOrDefault().ToDate"></label>
+                </th>
+            </tr>
+            @foreach (var borrow in Model.Borrows)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => borrow.BookId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => borrow.FromDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => borrow.ToDate)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+</div>
+
+<div class="form-group flex-row">
+    <div class="col-3">
+        <a asp-page="Index" class="btn btn-primary form-control">Back</a>
+    </div>
+</div>

@@ -40,6 +40,7 @@ namespace Library.Models
         public DateTime AddDate { get; set; }
 
         [DisplayName("Modified")]
+        [DataType(DataType.Date)]
         public DateTime ModifiedDate { get; set; }
         public bool IsActive { get; set; }
     }

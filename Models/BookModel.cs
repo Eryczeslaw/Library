@@ -43,6 +43,7 @@ namespace Library.Models
         public DateTime AddDate { get; set; }
 
         [DisplayName("Modified Date")]
+        [DataType(DataType.Date)]
         public DateTime ModifiedDate { get; set; }
     }
 }

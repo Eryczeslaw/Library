@@ -12,7 +12,7 @@
         <a asp-page="Add" class="btn btn-info form-control text-white">Add new user</a>
     </div>
 
-    <div class="col-12 border p-3 mt3">
+    <div class="col-12 border p-2 mt-2">
         <form method="post">
             @if (Model.Users.Count() > 0)
             {
@@ -36,9 +36,7 @@
                         <th>
                             <label asp-for="Users.FirstOrDefault().ModifiedDate"></label>
                         </th>
-                        <th>
-
-                        </th>
+                        <th></th>
                     </tr>
                     @foreach (var user in Model.Users)
                     {
