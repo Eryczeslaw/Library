@@ -29,8 +29,8 @@ namespace Library.Models
         [MaxLength(50)]
         public string ISBN { get; set; }
 
-        [DisplayName("Book Genre Id")]
-        [Required(ErrorMessage = "The Book Genre Id field is required")]
+        [DisplayName("Genre Id")]
+        [Required(ErrorMessage = "The Genre Id field is required")]
         public int BookGenreId { get; set; }
 
         [DisplayName("Count")]

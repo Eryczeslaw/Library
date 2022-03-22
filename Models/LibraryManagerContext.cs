@@ -11,5 +11,6 @@ namespace Library.Models
         public DbSet<UserModel> Users { get; set; }
         public DbSet<BookModel> Books { get; set; }
         public DbSet<BorrowModel> Borrows { get; set; }
+        public DbSet<DictBookGenreModel> DictBookGenres { get; set; }
     }
 }

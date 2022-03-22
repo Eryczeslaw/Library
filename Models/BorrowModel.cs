@@ -11,10 +11,12 @@ namespace Library.Models
         [Key]
         public int BorrowId { get; set; }
 
+        [ForeignKey("User")]
         [DisplayName("User Id")]
-        [Required(ErrorMessage = "The First Name field is required")]
+        [Required(ErrorMessage = "The User Id field is required")]
         public int UserId { get; set; }
 
+        [ForeignKey("Book")]
         [DisplayName("Book Id")]
         [Required(ErrorMessage = "The Book Id field is required")]
         public int BookId { get; set; }

@@ -12,12 +12,14 @@ namespace Library.Pages.User
         public UserModel User { get; set; }
         public IEnumerable<BookModel> Books { get; set; }
         public IEnumerable<BorrowModel> Borrows { get; set; }
+        public IEnumerable<DictBookGenreModel> DictBookGenres { get; set; }
 
         private readonly LibraryManagerContext db;
 
         public DetailsModel(LibraryManagerContext _db)
         {
             db = _db;
+            DictBookGenres = db.DictBookGenres;
         }
 
         public void OnGet(int id)
