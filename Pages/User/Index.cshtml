@@ -12,7 +12,7 @@
         <a asp-page="Add" class="btn btn-info form-control text-white">Add new user</a>
     </div>
 
-    <div class="col-12 border p-2 mt-2">
+    <div class="col-12 p-2 mt-2">
         <form method="post">
             @if (Model.Users.Count() > 0)
             {
@@ -61,7 +61,15 @@
                                 @Html.DisplayFor(modelItem => user.ModifiedDate)
                             </td>
                             <td>
-                                <button asp-page-handler="Delete" asp-route-id="@user.UserId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                                @{
+                                    string disabled = "";
+                                    if (Model.Borrows.Where(x => x.UserId == user.UserId).Count() > 0)
+                                    {
+                                        disabled = "disabled";
+                                    }
+                                }
+
+                                <a asp-page="Delete" asp-route-id="@user.UserId" class="btn btn-danger btn-sm @disabled" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                 <a asp-page="Edit" asp-route-id="@user.UserId" class="btn btn-success btn-sm text-white">Edit</a>
                                 <a asp-page="Details" asp-route-id="@user.UserId" class="btn btn-secondary btn-sm text-white">Details</a>
                             </td>
