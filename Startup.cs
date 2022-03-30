@@ -22,7 +22,7 @@ namespace Library
         {
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddDbContext<LibraryManagerContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddControllers();
         }
 
