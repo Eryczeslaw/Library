@@ -21,7 +21,7 @@ namespace Library.Pages.Book
         public void Save()
         {
             StreamWriter streamWriter;
-            string outPath = @"E:\Programowianie\Visual Studio\C#\Library\wwwroot\Books.js";
+            string outPath = @"E:\Programowianie\Visual Studio\C#\Library\wwwroot\JsonData\Books.json";
 
             if (!File.Exists(outPath))
             {

@@ -9,7 +9,7 @@ namespace Library.Pages.User
     public class DetailsModel : PageModel
     {
         [BindProperty]
-        public UserModel User { get; set; }
+        public UserModel NewUser { get; set; }
         public IEnumerable<BookModel> Books { get; set; }
         public IEnumerable<BorrowModel> Borrows { get; set; }
         public IEnumerable<DictBookGenreModel> DictBookGenres { get; set; }
@@ -24,7 +24,7 @@ namespace Library.Pages.User
 
         public void OnGet(int id)
         {
-            User = db.Users.SingleOrDefault(x => x.UserId == id);
+            NewUser = db.Users.SingleOrDefault(x => x.UserId == id);
             Borrows = db.Borrows.Where(x => x.UserId == id);
             Books = from book in db.Books
                     from borrow in db.Borrows

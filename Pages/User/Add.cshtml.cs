@@ -8,7 +8,7 @@ namespace Library.Pages.User
     public class AddModel : PageModel
     {
         [BindProperty]
-        public UserModel User { get; set; }
+        public UserModel NewUser { get; set; }
 
         private readonly LibraryManagerContext db;
 
