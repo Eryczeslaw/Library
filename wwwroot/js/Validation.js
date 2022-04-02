@@ -12,7 +12,7 @@
     const ISBN = document.getElementById('addISBN');
     const ISBNError = document.getElementById('errorISBN');
 
-    const bookGenreId = document.getElementById('addBookGenreId');
+    const bookGenreId = document.getElementById('bookGenreId');
     const bookGenreIdError = document.getElementById('errorBookGenreId');
 
     const count = document.getElementById('addCount');
@@ -54,15 +54,6 @@
         }
     });
 
-    bookGenreId.addEventListener('input', function (event) {
-
-        if (bookGenreId.validity.valid) {
-            bookGenreIdError.textContent = '';
-        } else {
-            showBookGenreIdError();
-        }
-    });
-
     count.addEventListener('input', function (event) {
 
         if (count.validity.valid) {
@@ -99,6 +90,7 @@
             event.preventDefault();
             IsValid = false;
         }
+
 
         if (!bookGenreId.validity.valid) {
             showBookGenreIdError();
@@ -143,11 +135,7 @@
     }
 
     function showISBNError() {
-        if (ISBN.validity.valueMissing) {
-            ISBNError.textContent = 'You need to enter an ISBN.';
-        } else if (ISBNE.validity.typeMismatch) {
-            ISBNError.textContent = 'Entered value needs to be a string';
-        }
+        ISBNError.textContent = 'Entered ISBN in the format 123-456-789';
     }
 
     function showBookGenreIdError() {

@@ -1,0 +1,22 @@
+[
+    {
+        "BookGenreId": 1,
+        "Name": "Powieść"
+    },
+    {
+        "BookGenreId": 2,
+        "Name": "Fantastyka naukowa"
+    },
+    {
+        "BookGenreId": 3,
+        "Name": "Dramat"
+    },
+    {
+        "BookGenreId": 4,
+        "Name": "Romans"
+    },
+    {
+        "BookGenreId": 5,
+        "Name": "Opowiadania"
+    }
+]
