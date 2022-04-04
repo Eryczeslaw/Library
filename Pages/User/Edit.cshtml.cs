@@ -34,7 +34,7 @@ namespace Library.Pages.User
                 result.BirthDate = NewUser.BirthDate;
                 result.Email = NewUser.Email;
                 result.Phone = NewUser.Phone;
-                NewUser.ModifiedDate = DateTime.UtcNow;
+                result.ModifiedDate = DateTime.UtcNow;
 
                 db.SaveChanges();
 

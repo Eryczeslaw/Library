@@ -1,4 +1,5 @@
 using Library.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
@@ -11,7 +12,6 @@ namespace Library.Pages.Book
         private readonly LibraryManagerContext db;
         private JsonAccess bookJson;
 
-
         public IndexModel(LibraryManagerContext _db)
         {
             db = _db;
@@ -19,9 +19,15 @@ namespace Library.Pages.Book
             bookJson = new JsonAccess(db);
         }
 
-        public void OnGet()
+        public void OnPostAddBook([FromBody] BookModel book)
         {
-            //bookJson.Save();
+            if (ModelState.IsValid)
+            {
+                db.Books.Add(book);
+
+                db.SaveChanges();
+                bookJson.Save();
+            }
         }
     }
 }

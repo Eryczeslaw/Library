@@ -21,14 +21,14 @@ namespace Library.Pages.User
         {
         }
 
-        public IActionResult OnPost(UserModel user)
+        public IActionResult OnPost(UserModel NewUser)
         {
             if (ModelState.IsValid)
             {
-                user.AddDate = DateTime.UtcNow;
-                user.ModifiedDate = DateTime.UtcNow;
-                user.IsActive = true;
-                db.Users.Add(user);
+                NewUser.AddDate = DateTime.UtcNow;
+                NewUser.ModifiedDate = DateTime.UtcNow;
+                NewUser.IsActive = true;
+                db.Users.Add(NewUser);
 
                 db.SaveChanges();
 

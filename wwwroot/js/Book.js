@@ -43,14 +43,13 @@ $(document).ready(function () {
             },
             sortable: true,
             height: 800,
-            toolbar: "<button class='create' name='create' onclick='addBook()'>Add book</button>",
+            toolbar: "<button class='btn btn-info' name='create' onclick='addBook()'>Add book</button>",
             columns: [
-                "BookId",
-                { field: "Author", title: "Author", width: "150px" },
+                { field: "Author", title: "Author", width: "200px" },
                 { field: "Title", title: "Title" },
-                { field: "ReleaseDate", title: "Release Date", width: "220px" },
-                { field: "ISBN", title: "ISBN", width: "120px" },
-                { field: "BookGenreId", title: "Book Genre Id", width: "60px" },
+                { field: "ReleaseDate", title: "Release Date", width: "230px" },
+                { field: "ISBN", title: "ISBN", width: "100px" },
+                { field: "BookGenreId", title: "Genre Id", width: "80px" },
                 { field: "Count", title: "Count", width: "60px" },
                 {
                     command: [
@@ -71,7 +70,7 @@ $(document).ready(function () {
 });
 
 $("#dialog").kendoDialog({
-    width: "550px",
+    width: "600px",
     height: "500px",
     title: "Add new book",
     closable: true,
@@ -82,7 +81,7 @@ $("#dialog").kendoDialog({
 var addDialog = $("#dialog").data("kendoDialog");
 
 function addBook() {
-    addDialog.content('<div id="addDialog"><style>#addContainer > label {min-width: 100px;height: 30px;font-weight: 500;} #addContainer > input {width: 170px;height: 30px;} #addContainer > span {color: red;height: 30px;font-size: 16px;font-weight: 500;margin-left: 5px;}</style><form novalidate><div id = "addContainer" style = "float:left; margin:5px; height:330px; padding:5px;" ><label>Author:</label><input id="addAuthor" type="text" required /><span id="errorAuthor" aria-live="polite"></span> <br /><label>Title:</label><input id="addTitle" type="text" required /><span id="errorTitle" aria-live="polite"></span> <br /><label>ReleaseDate:</label><input id="addReleaseDate" type="date" style="width:130px;" required /><span id="errorReleaseDate" aria-live="polite"></span> <br /><label>ISBN:</label><input id="addISBN" type="text" required pattern ="[0-9]{1,3}-[0-9]{1,3}-[0-9]{1,3}" /><span id="errorISBN" style="font-size:12px;" aria-live="polite"></span> <br /><label>BookGenreId:</label><label class="addBookGenreId"></label><span id="errorBookGenreId" aria-live="polite"></span> <br /><label>Count:</label><input id="addCount" type="number" value="1" min="1" required /><span id="errorCount" aria-live="polite"></span> <br /></div ><div style="clear:both;"></div><div style="margin: 10px; float:left;"><a class="btn btn-success" style="margin:5px;" onclick="accept()">Accept</a><a class="btn btn-danger" style="margin:5px;" onclick="cancel()">Cancel</a></div></form ></div>');
+    addDialog.content('<div id="addDialog"><style>#addContainer > label {min-width: 100px;height: 30px;font-weight: 500;} #addContainer > input {width: 170px;height: 30px;} #addContainer > span {color: red;height: 30px;font-size: 14px;font-weight: 600;margin-left: 5px;}</style><form novalidate><div id = "addContainer" style = "float:left; margin:5px; height:330px; padding:5px;" ><label>Author:</label><input id="addAuthor" type="text" required /><span id="errorAuthor" aria-live="polite"></span> <br /><label>Title:</label><input id="addTitle" type="text" required /><span id="errorTitle" aria-live="polite"></span> <br /><label>ReleaseDate:</label><input id="addReleaseDate" type="date" style="width:130px;" required /><span id="errorReleaseDate" aria-live="polite"></span> <br /><label>ISBN:</label><input id="addISBN" type="text" required pattern ="[0-9]{1,3}-[0-9]{1,3}-[0-9]{1,3}" /><span id="errorISBN" aria-live="polite"></span> <br /><label>BookGenreId:</label><label class="addBookGenreId"></label><span id="errorBookGenreId" aria-live="polite"></span> <br /><label>Count:</label><input id="addCount" type="number" value="1" min="1" required /><span id="errorCount" aria-live="polite"></span> <br /></div ><div style="clear:both;"></div><div style="margin: 10px; float:left;"><a class="btn btn-success" style="margin:5px;" onclick="accept()">Accept</a><a class="btn btn-danger" style="margin:5px;" onclick="cancel()">Cancel</a></div></form ></div>');
 
     var dictBook = '<select id="bookGenreId" type="number" min="1" required>';
     for (var i = 0; i < dictBookGenre.length; i++) {
@@ -99,27 +98,60 @@ function accept() {
     var isRight = acceptValidation();
 
     if (isRight == true) {
-        var Today = new Date();
-        var Now = Today.getFullYear() + "-" + (Today.getMonth() + 1) + "-" + Today.getDate() + "T" + Today.getHours() + ":" + Today.getMinutes() + ":00";
+
+        var Now = MyDate();
 
         var book = {
-            "BookId": books[books.length - 1].BookId + 1,
+            "BookId": 0,
             "Author": $("#addAuthor").val(),
             "Title": $("#addTitle").val(),
             "ReleaseDate": $("#addReleaseDate").val(),
             "ISBN": $("#addISBN").val(),
-            "BookGenreId": $("#bookGenreId").val(),
-            "Count": $("#addCount").val(),
+            "BookGenreId": Number($("#bookGenreId").val()),
+            "Count": Number($("#addCount").val()),
             "AddDate": Now,
             "ModifiedDate": Now
         };
 
         dataSource.add(book);
+        books.push(book);
 
+        $.ajax({
+            type: "POST",
+            url: "/Book/Index?handler=AddBook",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(book),
+            headers: {
+                RequestVerificationToken:
+                    $('input:hidden[name="__RequestVerificationToken"]').val()
+            },
+        })
         addDialog.close();
     }
 }
 
+function MyDate() {
+    var Today = new Date();
+
+    var month = (Today.getMonth() + 1);
+    if (month < 10) month = "0" + month;
+
+    var day = Today.getDate();
+    if (day < 10) day = "0" + day;
+
+    var hour = Today.getHours();
+    if (hour < 10) hour = "0" + hour;
+
+    var minute = Today.getMinutes();
+    if (minute < 10) minute = "0" + minute;
+
+    return Today.getFullYear() + "-" + month + "-" + day + "T" + hour + ":" + minute + ":00";
+};
+
 function cancel() {
     addDialog.close();
+
+    var fs = require('fs');
+    fs.writeFile('JsonData/Books.json', books);
 }
