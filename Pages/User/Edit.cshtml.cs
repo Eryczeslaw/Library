@@ -40,10 +40,8 @@ namespace Library.Pages.User
 
                 return RedirectToPage("Index");
             }
-            else
-            {
-                return Page();
-            }
+
+            return Page();
         }
     }
 }

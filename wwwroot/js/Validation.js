@@ -1,22 +1,22 @@
-﻿function acceptValidation() {
+﻿function Validation(type) {
 
-    const author = document.getElementById('addAuthor');
-    const authorError = document.getElementById('errorAuthor');
+    const author = document.getElementById(type + 'Author');
+    const authorError = document.getElementById(type + 'ErrorAuthor');
 
-    const title = document.getElementById('addTitle');
-    const titleError = document.getElementById('errorTitle');
+    const title = document.getElementById(type + 'Title');
+    const titleError = document.getElementById(type + 'ErrorTitle');
 
-    const releaseDate = document.getElementById('addReleaseDate');
-    const releaseDateError = document.getElementById('errorReleaseDate');
+    const releaseDate = document.getElementById(type + 'ReleaseDate');
+    const releaseDateError = document.getElementById(type + 'ErrorReleaseDate');
 
-    const ISBN = document.getElementById('addISBN');
-    const ISBNError = document.getElementById('errorISBN');
+    const ISBN = document.getElementById(type + 'ISBN');
+    const ISBNError = document.getElementById(type + 'ErrorISBN');
 
-    const bookGenreId = document.getElementById('bookGenreId');
-    const bookGenreIdError = document.getElementById('errorBookGenreId');
+    const bookGenreId = document.getElementById(type + 'bookGenreId');
+    const bookGenreIdError = document.getElementById(type + 'ErrorBookGenreId');
 
-    const count = document.getElementById('addCount');
-    const countError = document.getElementById('errorCount');
+    const count = document.getElementById(type + 'Count');
+    const countError = document.getElementById(type + 'ErrorCount');
 
     author.addEventListener('input', function (event) {
 

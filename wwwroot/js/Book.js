@@ -4,8 +4,6 @@ var dataSource;
 
 $(document).ready(function () {
 
-    $("#addDialog").hide();
-
     $.get("JsonData/DictBookGenre.json", function (data, status) {
         dictBookGenre = data;
     });
@@ -38,7 +36,6 @@ $(document).ready(function () {
         $("#grid").kendoGrid({
             dataSource: dataSource,
             pageable: {
-                refresh: true,
                 input: true
             },
             sortable: true,
@@ -51,25 +48,16 @@ $(document).ready(function () {
                 { field: "ISBN", title: "ISBN", width: "100px" },
                 { field: "BookGenreId", title: "Genre Id", width: "80px" },
                 { field: "Count", title: "Count", width: "60px" },
-                {
-                    command: [
-                        {
-                            className: "btn-details",
-                            name: "Details",
-                            click: function (e) {
-                                kendo.alert(e.target.text());
-                            }
-                        },
-                        { name: "edit" }
-                    ], title: "&nbsp;", width: "160px"
-                }
             ],
-            editable: "popup"
+            editable: "incell",
+            edit: function (e) {
+                editBook(e);
+            },
         });
     })
 });
 
-$("#dialog").kendoDialog({
+$("#dialogAdd").kendoDialog({
     width: "600px",
     height: "500px",
     title: "Add new book",
@@ -78,12 +66,22 @@ $("#dialog").kendoDialog({
     visible: false
 });
 
-var addDialog = $("#dialog").data("kendoDialog");
+$("#dialogEdit").kendoDialog({
+    width: "600px",
+    height: "500px",
+    title: "Edit book",
+    closable: true,
+    modal: true,
+    visible: false
+});
+
+var addDialog = $("#dialogAdd").data("kendoDialog");
+var editDialog = $("#dialogEdit").data("kendoDialog");
 
 function addBook() {
-    addDialog.content('<div id="addDialog"><style>#addContainer > label {min-width: 100px;height: 30px;font-weight: 500;} #addContainer > input {width: 170px;height: 30px;} #addContainer > span {color: red;height: 30px;font-size: 14px;font-weight: 600;margin-left: 5px;}</style><form novalidate><div id = "addContainer" style = "float:left; margin:5px; height:330px; padding:5px;" ><label>Author:</label><input id="addAuthor" type="text" required /><span id="errorAuthor" aria-live="polite"></span> <br /><label>Title:</label><input id="addTitle" type="text" required /><span id="errorTitle" aria-live="polite"></span> <br /><label>ReleaseDate:</label><input id="addReleaseDate" type="date" style="width:130px;" required /><span id="errorReleaseDate" aria-live="polite"></span> <br /><label>ISBN:</label><input id="addISBN" type="text" required pattern ="[0-9]{1,3}-[0-9]{1,3}-[0-9]{1,3}" /><span id="errorISBN" aria-live="polite"></span> <br /><label>BookGenreId:</label><label class="addBookGenreId"></label><span id="errorBookGenreId" aria-live="polite"></span> <br /><label>Count:</label><input id="addCount" type="number" value="1" min="1" required /><span id="errorCount" aria-live="polite"></span> <br /></div ><div style="clear:both;"></div><div style="margin: 10px; float:left;"><a class="btn btn-success" style="margin:5px;" onclick="accept()">Accept</a><a class="btn btn-danger" style="margin:5px;" onclick="cancel()">Cancel</a></div></form ></div>');
+    addDialog.content('<div id="addDialogContent"><style> #dialogContainer > label {min-width: 100px;height: 30px;font-weight: 500;} #dialogContainer > input {width: 170px;height: 30px;} #dialogContainer > span {color: red;height: 30px;font-size: 14px;font-weight: 600;margin-left: 5px;}</style><form novalidate><div id = "dialogContainer" style = "float:left; margin:5px; height:330px; padding:5px;" ><label>Author:</label><input id="addAuthor" type="text" required /><span id="addErrorAuthor" aria-live="polite"></span> <br /><label>Title:</label><input id="addTitle" type="text" required /><span id="addErrorTitle" aria-live="polite"></span> <br /><label>ReleaseDate:</label><input id="addReleaseDate" type="date" style="width:130px;" required /><span id="addErrorReleaseDate" aria-live="polite"></span> <br /><label>ISBN:</label><input id="addISBN" type="text" required pattern ="[0-9]{1,3}-[0-9]{1,3}-[0-9]{1,3}" /><span id="addErrorISBN" aria-live="polite"></span> <br /><label>BookGenreId:</label><label class="addBookGenreId"></label><span id="addErrorBookGenreId" aria-live="polite"></span> <br /><label>Count:</label><input id="addCount" type="number" value="1" min="1" required /><span id="addErrorCount" aria-live="polite"></span> <br /></div ><div style="clear:both;"></div><div style="margin: 10px; float:left;"><a class="btn btn-success btn-lg text-white" style="margin:5px;" onclick="acceptAdd()">Accept</a><a class="btn btn-danger btn-lg text-white" style="margin:5px;" onclick="cancel()">Cancel</a></div></form ></div>');
 
-    var dictBook = '<select id="bookGenreId" type="number" min="1" required>';
+    var dictBook = '<select id="addbookGenreId" type="number" min="1" required>';
     for (var i = 0; i < dictBookGenre.length; i++) {
         dictBook += '<option value=' + dictBookGenre[i].BookGenreId + '>' + dictBookGenre[i].Name + '</option>';
     }
@@ -94,27 +92,64 @@ function addBook() {
     addDialog.open();
 };
 
-function accept() {
-    var isRight = acceptValidation();
+function editBook(book) {
+    editDialog.content('<div id="editDialogContent"><style> #dialogContainer > label {min-width: 100px;height: 30px;font-weight: 500;} #dialogContainer > input {width: 170px;height: 30px;} #dialogContainer > span {color: red;height: 30px;font-size: 14px;font-weight: 600;margin-left: 5px;}</style><form novalidate><div id = "dialogContainer" style = "float:left; margin:5px; height:330px; padding:5px;" ><input type="hidden" id="editBookId"/><label>Author:</label><input id="editAuthor" type="text" required /><span id="editErrorAuthor" aria-live="polite"></span> <br /><label>Title:</label><input id="editTitle" type="text" required /><span id="editErrorTitle" aria-live="polite"></span> <br /><label>ReleaseDate:</label><input id="editReleaseDate" type="date" style="width:130px;" required /><span id="editErrorReleaseDate" aria-live="polite"></span> <br /><label>ISBN:</label><input id="editISBN" type="text" required pattern ="[0-9]{1,3}-[0-9]{1,3}-[0-9]{1,3}" /><span id="editErrorISBN" aria-live="polite"></span> <br /><label>BookGenreId:</label><label class="editBookGenreId"></label><span id="editErrorBookGenreId" aria-live="polite"></span> <br /><label>Count:</label><input id="editCount" type="number" value="1" min="1" required /><span id="editErrorCount" aria-live="polite"></span> <br /></div ><div style="clear:both;"></div><div style="margin: 10px; float:left;"><a class="btn btn-success btn-lg text-white" style="margin:5px;" onclick="acceptEdit()">Accept</a><a class="btn btn-danger btn-lg text-white" style="margin:5px;" onclick="cancel()">Cancel</a></div></form ></div>');
+    $('.k-widget k-window k-display-inline-flex').hide();
+
+    var dictBook = '<select id="editbookGenreId" type="number" min="1" required>';
+    for (var i = 0; i < dictBookGenre.length; i++) {
+        if (i + 1 == book.model.BookGenreId) {
+            dictBook += '<option value=' + dictBookGenre[i].BookGenreId + ' selected="selected">' + dictBookGenre[i].Name + '</option>';
+        }
+        else {
+            dictBook += '<option value=' + dictBookGenre[i].BookGenreId + '>' + dictBookGenre[i].Name + '</option>';
+        }
+    }
+    dictBook += '</select>';
+
+    fillEditDialog(book);
+
+    $('.editBookGenreId').html(dictBook);
+
+    editDialog.open();
+};
+
+function fillEditDialog(book) {
+
+    var month = (book.model.ReleaseDate.getMonth() + 1);
+    if (month < 10) month = "0" + month;
+
+    var day = book.model.ReleaseDate.getDate();
+    if (day < 10) day = "0" + day;
+
+    var ReleaseDate = book.model.ReleaseDate.getFullYear() + "-" + month + "-" + day;
+
+    $("#editBookId").val(book.model.BookId);
+    $("#editAuthor").val(book.model.Author);
+    $("#editTitle").val(book.model.Title);
+    $("#editReleaseDate").val(ReleaseDate);
+    $("#editISBN").val(book.model.ISBN);
+    $("#editbookGenreId").val(book.model.BookGenreId);
+    $("#editCount").val(book.model.Count);
+}
+
+function acceptAdd() {
+    var type = "add";
+    var isRight = Validation(type)
 
     if (isRight == true) {
 
         var Now = MyDate();
-
         var book = {
-            "BookId": 0,
             "Author": $("#addAuthor").val(),
             "Title": $("#addTitle").val(),
             "ReleaseDate": $("#addReleaseDate").val(),
             "ISBN": $("#addISBN").val(),
-            "BookGenreId": Number($("#bookGenreId").val()),
+            "BookGenreId": Number($("#addbookGenreId").val()),
             "Count": Number($("#addCount").val()),
             "AddDate": Now,
             "ModifiedDate": Now
         };
-
-        dataSource.add(book);
-        books.push(book);
 
         $.ajax({
             type: "POST",
@@ -122,12 +157,42 @@ function accept() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(book),
-            headers: {
-                RequestVerificationToken:
-                    $('input:hidden[name="__RequestVerificationToken"]').val()
-            },
+            headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
         })
         addDialog.close();
+
+        location.reload();
+    }
+}
+
+function acceptEdit() {
+    var type = "edit";
+    var isRight = Validation(type)
+
+    if (isRight == true) {
+
+        var Now = MyDate();
+        var book = {
+            "Author": $("#editAuthor").val() + ";#" + $("#editBookId").val(),
+            "Title": $("#editTitle").val(),
+            "ReleaseDate": $("#editReleaseDate").val(),
+            "ISBN": $("#editISBN").val(),
+            "BookGenreId": Number($("#editbookGenreId").val()),
+            "Count": Number($("#editCount").val()),
+            "ModifiedDate": Now
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Book/Index?handler=EditBook",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(book),
+            headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+        })
+        editDialog.close();
+
+        location.reload();
     }
 }
 
@@ -151,7 +216,5 @@ function MyDate() {
 
 function cancel() {
     addDialog.close();
-
-    var fs = require('fs');
-    fs.writeFile('JsonData/Books.json', books);
+    editDialog.close();
 }

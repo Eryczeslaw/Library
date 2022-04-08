@@ -1,5 +1,6 @@
 ﻿@page
 @model Library.Pages.Book.IndexModel
+@Html.AntiForgeryToken()
 
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.default-main.min.css" />
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.common.min.css" />
@@ -10,7 +11,8 @@
 
 <div id="example">
     <div id="grid"></div>
-    <div id="dialog"></div>
+    <div id="dialogAdd"></div>
+    <div id="dialogEdit"></div>
 </div>
 
 <script src="~/js/Book.js"></script>
