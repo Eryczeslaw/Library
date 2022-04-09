@@ -16,14 +16,17 @@ namespace Library.Pages.User
 
         public IActionResult OnGet(int id)
         {
-            UserModel result = db.Users.SingleOrDefault(x => x.UserId == id);
-            if (result == null)
+            if(db.Borrows.Where(x => x.UserId == id).Count() == 0)
             {
-                NotFound();
-            }
+                UserModel result = db.Users.SingleOrDefault(x => x.UserId == id);
+                if (result == null)
+                {
+                    NotFound();
+                }
 
-            result.IsActive = false;
-            db.SaveChanges();
+                result.IsActive = false;
+                db.SaveChanges();
+            }
 
             return RedirectToPage("Index");
         }
