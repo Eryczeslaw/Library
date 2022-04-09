@@ -1,0 +1,177 @@
+﻿@page
+@model Library.Pages.Book.DetailsModel
+@{
+}
+
+<div class="container row p-0 m-0">
+
+    <div class="col-12">
+        <h2 class="text-info">Details</h2>
+    </div>
+
+    <div class="col-12 p-2 mt3">
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>
+                    <label asp-for="Book.Author"></label>
+                </th>
+                <th>
+                    <label asp-for="Book.Title"></label>
+                </th>
+                <th>
+                    <label asp-for="Book.ReleaseDate"></label>
+                </th>
+                <th>
+                    <label asp-for="Book.ISBN"></label>
+                </th>
+                <th>
+                    <label asp-for="Book.BookGenreId"></label>
+                </th>
+                <th>
+                    <label asp-for="Book.Count"></label>
+                </th>
+                <th>
+                    <label asp-for="Book.AddDate"></label>
+                </th>
+                <th>
+                    <label asp-for="Book.ModifiedDate"></label>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Book.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Book.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Book.ISBN)
+                </td>
+                <td>
+                    @{
+                        IEnumerable<string> genre = from dictBG in Model.DictBookGenres
+                                                    where Model.Book.BookGenreId == dictBG.BookGenreId
+                                                    select dictBG.Name;
+                    }
+                    @genre.FirstOrDefault()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Book.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Book.AddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Book.ModifiedDate)
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-6">
+        <h2 class="text-info">Current status</h2>
+    </div>
+
+    <div class="col-6">
+        <h2 class="text-info">Borrow history</h2>
+    </div>
+
+    <div class="col-6 p-2 mt3">
+        @if (Model.CurrentStatus.Count() > 0)
+        {
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        <label>User Name</label>
+                    </th>
+                    <th>
+                        <label asp-for="Borrows.FirstOrDefault().FromDate"></label>
+                    </th>
+                    <th>
+                        <label asp-for="Borrows.FirstOrDefault().ToDate"></label>
+                    </th>
+                </tr>
+
+                @foreach (var crs in Model.CurrentStatus)
+                {
+                    <tr>
+                        <td>
+                            @{
+                                var user = from usr in Model.Users
+                                           where usr.UserId == crs.UserId
+                                           select usr;
+                            }
+                            @user.FirstOrDefault().FirstName
+                            @user.FirstOrDefault().LastName
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => crs.FromDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => crs.ToDate)
+                        </td>
+                    </tr>
+
+                }
+            </table>
+        }
+        else
+        {
+            <p><h3>No one is borrowing this book</h3></p>
+        }
+    </div>
+
+    <div class="col-6 p-2 mt3">
+        @if (Model.CurrentStatus.Count() > 0)
+        {
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        <label>User Name</label>
+                    </th>
+                    <th>
+                        <label asp-for="Borrows.FirstOrDefault().FromDate"></label>
+                    </th>
+                    <th>
+                        <label asp-for="Borrows.FirstOrDefault().ToDate"></label>
+                    </th>
+                </tr>
+
+                @foreach (var brw in Model.Borrows)
+                {
+                    <tr>
+                        <td>
+                            @{
+                                var user = from usr in Model.Users
+                                           where usr.UserId == brw.UserId
+                                           select usr;
+                            }
+                            @user.FirstOrDefault().FirstName
+                            @user.FirstOrDefault().LastName
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => brw.FromDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => brw.ToDate)
+                        </td>
+                    </tr>
+
+                }
+            </table>
+        }
+        else
+        {
+            <p><h3>No one has borrowed this book</h3></p>
+        }
+    </div>
+
+</div>
+
+<div class="form-group flex-row">
+    <div class="col-3">
+        <a asp-page="Index" class="btn btn-primary form-control">Back</a>
+    </div>
+</div>

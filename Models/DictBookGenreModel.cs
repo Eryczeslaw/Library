@@ -11,7 +11,7 @@ namespace Library.Models
         public int BookGenreId { get; set; }
 
         [DisplayName("Name")]
-        [Required(ErrorMessage = "The First Name field is required")]
+        [Required(ErrorMessage = "The Name field is required")]
         [MaxLength(50)]
         public string Name { get; set; }
     }

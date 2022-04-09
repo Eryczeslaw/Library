@@ -22,6 +22,7 @@ namespace Library.Models
         public string Title { get; set; }
 
         [DisplayName("Release Date")]
+        [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
 
         [DisplayName("ISBN")]

@@ -9,10 +9,21 @@
 <script src="https://kendo.cdn.telerik.com/2022.1.301/js/jquery.min.js"></script>
 <script src="https://kendo.cdn.telerik.com/2022.1.301/js/kendo.all.min.js"></script>
 
-<div id="example">
-    <div id="grid"></div>
-    <div id="dialogAdd"></div>
-    <div id="dialogEdit"></div>
+<div class="container row p-0 m-0">
+
+    <div class="col-10">
+        <h2 class="text-info">Book list</h2>
+    </div>
+
+    <div class="col-2">
+        <button class='btn btn-info' style="width:150px" onclick='addBook()'>Add book</button>
+    </div>
+
+    <div id="gridContainer" style="margin-top:10px;">
+        <div id="grid"></div>
+        <div id="dialogAdd"></div>
+        <div id="dialogEdit"></div>
+    </div>
 </div>
 
 <script src="~/js/Book.js"></script>
