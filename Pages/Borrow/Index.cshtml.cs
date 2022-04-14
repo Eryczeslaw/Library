@@ -66,5 +66,16 @@ namespace Library.Pages.Borrow
                 }
             }
         }
+
+        public void OnPostReturnBook([FromBody] int borrowId)
+        {
+            bool isBorrow = db.Borrows.Where(x => x.BorrowId == borrowId).Any();
+            if (isBorrow)
+            {
+                BorrowModel result = db.Borrows.SingleOrDefault(x => x.BorrowId == borrowId);
+                result.IsReturned = true;
+                db.SaveChanges();
+            }
+        }
     }
 }

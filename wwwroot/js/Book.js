@@ -20,11 +20,10 @@ $(document).ready(function () {
                         Author: { type: "string" },
                         Title: { type: "string" },
                         ReleaseDate: { type: "date" },
-                        ISBN: { type: "string" },
                         BookGenreId: { type: "number" },
+                        Name: { type: "string" },
+                        ISBN: { type: "string" },
                         Count: { type: "number" },
-                        AddDate: { type: "date" },
-                        ModifiedDate: { type: "date" },
                     }
                 }
             },
@@ -40,9 +39,11 @@ $(document).ready(function () {
             columns: [
                 { field: "Author", title: "Author", width: "200px" },
                 { field: "Title", title: "Title" },
-                { field: "ReleaseDate", title: "Release Date", width: "300px" },
+                { field: "ReleaseDate", format: "{0:d}", title: "Release Date", width: "100px" },
+                { field: "Name", title: "Genre", width: "200px" },
                 { field: "ISBN", title: "ISBN", width: "100px" },
-                { command: { text: "Details", click: details}, title: " ", width: "80px" },
+                { field: "Count", title: "Count", width: "100px" },
+                { command: { text: "Details", click: details }, title: " ", width: "80px" },
                 { command: { text: "Edit", click: edit }, title: " ", width: "70px" }
             ],
         });

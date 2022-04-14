@@ -13,14 +13,15 @@ $(document).ready(function () {
         dataSourceBooks = new kendo.data.DataSource({
             data: data,
             batch: true,
-            pageSize: 20,
+            pageSize: 10,
             schema: {
                 model: {
-                    id: "BookId",
+                    id: "BorrowId",
                     fields: {
-                        Author: { type: "string" },
                         Title: { type: "string" },
-                        ReleaseDate: { type: "date" },
+                        Author: { type: "string" },
+                        FirstName: { type: "string" },
+                        LastName: { type: "string" },
                     }
                 }
             },
@@ -32,10 +33,13 @@ $(document).ready(function () {
                 input: true
             },
             sortable: true,
-            height: 700,
+            height: 300,
             columns: [
-                { field: "Author", title: "Author", width: "160px" },
                 { field: "Title", title: "Title" },
+                { field: "Author", title: "Author" },
+                { field: "FirstName", title: "FirstName" },
+                { field: "LastName", title: "LastName" },
+                { command: { text: "Return", click: returnBook }, width: "85px" }
             ],
         });
     })
@@ -45,7 +49,7 @@ $(document).ready(function () {
         dataSourceUsers = new kendo.data.DataSource({
             data: data,
             batch: true,
-            pageSize: 20,
+            pageSize: 10,
             schema: {
                 model: {
                     id: "UserId",
@@ -53,6 +57,7 @@ $(document).ready(function () {
                         FirstName: { type: "string" },
                         LastName: { type: "string" },
                         Email: { type: "string" },
+                        Count: { type: "number" }
                     }
                 }
             },
@@ -64,12 +69,19 @@ $(document).ready(function () {
                 input: true
             },
             sortable: true,
-            height: 700,
+            height: 300,
             columns: [
-                { field: "FirstName", title: "FirstName", width: "150px" },
-                { field: "LastName", title: "LastName", width: "150px" },
+                { field: "FirstName", title: "FirstName" },
+                { field: "LastName", title: "LastName" },
                 { field: "Email", title: "Email" },
+                { field: "Count", title: "Number of books" },
             ],
+            editable: "incell",
+            edit: function (e) {
+                console.log(e);
+
+                window.location.href = '/Borrow/ReturnFromUser?id=' + e.model.UserId;
+            }
         });
     })
 });
@@ -259,3 +271,21 @@ function acceptAdd() {
 function cancel() {
     addDialog.close();
 };
+
+function returnBook(e) {
+    e.preventDefault();
+
+    var borrow = this.dataItem($(e.currentTarget).closest("tr"));
+
+    $.ajax({
+        type: "POST",
+        url: "/Borrow/Index?handler=ReturnBook",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(borrow.BorrowId),
+        headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+    })
+        .always(function () {
+            location.reload();
+        });
+}

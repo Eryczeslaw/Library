@@ -1,7 +1,7 @@
 ﻿using Library.Models;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Library.Pages.Book
 {
@@ -10,16 +10,18 @@ namespace Library.Pages.Book
         private readonly LibraryManagerContext db;
         private string jsonString;
 
-        public IEnumerable<BookModel> Books { get; set; }
-
         public JsonAccess(LibraryManagerContext _db)
         {
             db = _db;
-            Books = db.Books;
         }
 
         public void Save()
         {
+            var Books = from book in db.Books
+                        from genre in db.DictBookGenres
+                        where book.BookGenreId == genre.BookGenreId
+                        select new { book.BookId, book.Author, book.Title, book.ReleaseDate, genre.BookGenreId, genre.Name, book.ISBN, book.Count };
+
             StreamWriter streamWriter;
             string outPath = @"E:\Programowianie\Visual Studio\C#\Library\wwwroot\JsonData\Books.json";
 
