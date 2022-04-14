@@ -1,18 +1,16 @@
 ﻿var dictBookGenre;
-var books;
 var dataSource;
 
 $(document).ready(function () {
 
-    $.get("JsonData/DictBookGenre.json", function (data, status) {
+    $.get("JsonData/DictBookGenre.json", function (data) {
         dictBookGenre = data;
     });
 
-    $.get("JsonData/Books.json", function (data, status) {
-        books = data;
+    $.get("JsonData/Books.json", function (data) {
 
         dataSource = new kendo.data.DataSource({
-            data: books,
+            data: data,
             batch: true,
             pageSize: 20,
             schema: {
@@ -85,6 +83,7 @@ function addBook() {
 
     addDialog.open();
 };
+
 function edit(e) {
     e.preventDefault();
     var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
@@ -158,8 +157,8 @@ function acceptAdd() {
             data: JSON.stringify(book),
             headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
         })
-        addDialog.close();
 
+        addDialog.close();
         location.reload();
     }
 }
@@ -189,8 +188,8 @@ function acceptEdit() {
             data: JSON.stringify(book),
             headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
         })
-        editDialog.close();
 
+        editDialog.close();
         location.reload();
     }
 }

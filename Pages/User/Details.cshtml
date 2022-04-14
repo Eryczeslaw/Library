@@ -64,28 +64,28 @@
     </div>
 
     <div class="col-6 p-2 mt3">
-        @if (Model.Books.Count() > 0)
+        @if (Model.BorrowedBooks.Count() > 0)
         {
             <table class="table table-striped border">
                 <tr class="table-secondary">
                     <th>
-                        <label asp-for="Books.FirstOrDefault().Author"></label>
+                        <label asp-for="BorrowedBooks.FirstOrDefault().Title"></label>
                     </th>
                     <th>
-                        <label asp-for="Books.FirstOrDefault().Title"></label>
+                        <label asp-for="BorrowedBooks.FirstOrDefault().Author"></label>
                     </th>
                     <th>
                         <label>Genre</label>
                     </th>
                 </tr>
-                @foreach (var book in Model.Books)
+                @foreach (var book in Model.BorrowedBooks)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => book.Author)
+                            @Html.DisplayFor(modelItem => book.Title)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => book.Title)
+                            @Html.DisplayFor(modelItem => book.Author)
                         </td>
                         <td>
                             @{
@@ -106,7 +106,7 @@
     </div>
 
     <div class="col-6 p-2 mt3">
-        @if (Model.Borrows.Count() > 0)
+        @if (Model.HistoryBorrow.Count() > 0)
         {
             <table class="table table-striped border">
                 <tr class="table-secondary">
@@ -114,13 +114,13 @@
                         <label>Book Title</label>
                     </th>
                     <th>
-                        <label asp-for="Borrows.FirstOrDefault().FromDate"></label>
+                        <label asp-for="HistoryBorrow.FirstOrDefault().FromDate"></label>
                     </th>
                     <th>
-                        <label asp-for="Borrows.FirstOrDefault().ToDate"></label>
+                        <label asp-for="HistoryBorrow.FirstOrDefault().ToDate"></label>
                     </th>
                 </tr>
-                @foreach (var borrow in Model.Borrows)
+                @foreach (var borrow in Model.HistoryBorrow)
                 {
                     <tr>
                         <td>
