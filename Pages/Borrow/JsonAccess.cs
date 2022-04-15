@@ -26,7 +26,7 @@ namespace Library.Pages.Borrow
 
 
             StreamWriter streamWriter;
-            string outPath = @"E:\Programowianie\Visual Studio\C#\Library\wwwroot\JsonData\BorrowedBooks.json";
+            string outPath = @"wwwroot\JsonData\BorrowedBooks.json";
 
             if (!File.Exists(outPath))
             {
@@ -60,7 +60,7 @@ namespace Library.Pages.Borrow
                                   }).Distinct();
 
             StreamWriter streamWriter;
-            string outPath = @"E:\Programowianie\Visual Studio\C#\Library\wwwroot\JsonData\UsersWithBooks.json";
+            string outPath = @"wwwroot\JsonData\UsersWithBooks.json";
 
             if (!File.Exists(outPath))
             {
@@ -86,7 +86,7 @@ namespace Library.Pages.Borrow
                                        select new { user.UserId, user.FirstName, user.LastName };
 
             StreamWriter streamWriter;
-            string outPath = @"E:\Programowianie\Visual Studio\C#\Library\wwwroot\JsonData\UsersWithoutAllBooks.json";
+            string outPath = @"wwwroot\JsonData\UsersWithoutAllBooks.json";
 
             if (!File.Exists(outPath))
             {
@@ -116,7 +116,7 @@ namespace Library.Pages.Borrow
                                                                                where borrow.UserId == userId && borrow.BookId == books.BookId && borrow.IsReturned == false
                                                                                select books).Distinct());
             StreamWriter streamWriter;
-            string outPath = @"E:\Programowianie\Visual Studio\C#\Library\wwwroot\JsonData\ThisAvailableBooks.json";
+            string outPath = @"wwwroot\JsonData\ThisAvailableBooks.json";
 
             if (!File.Exists(outPath))
             {

@@ -23,7 +23,7 @@ namespace Library.Pages.Book
                         select new { book.BookId, book.Author, book.Title, book.ReleaseDate, genre.BookGenreId, genre.Name, book.ISBN, book.Count };
 
             StreamWriter streamWriter;
-            string outPath = @"E:\Programowianie\Visual Studio\C#\Library\wwwroot\JsonData\Books.json";
+            string outPath = @"wwwroot\JsonData\Books.json";
 
             if (!File.Exists(outPath))
             {
