@@ -1,0 +1,82 @@
+﻿#buttons {
+    height: 600px;
+    width: 800px;
+    margin-top: 70px;
+    margin-left: 155px;
+}
+
+.button1 {
+    margin: 10px;
+    width: 380px;
+    height: 235px;
+    background-color: #22ff21;
+    float: left;
+}
+
+    .button1 > label {
+        color: aliceblue;
+        font-size: 70px;
+        margin-top: 60px;
+        margin-left: 106px;
+    }
+
+    .button1:hover {
+        background-color: #00ee10;
+    }
+
+.button2 {
+    margin: 10px;
+    width: 380px;
+    height: 235px;
+    background-color: #ff6a22;
+    float: left;
+}
+
+    .button2 > label {
+        color: aliceblue;
+        font-size: 70px;
+        margin-top: 60px;
+        margin-left: 97px;
+    }
+
+    .button2:hover {
+        background-color: #ee5911;
+    }
+
+.button3 {
+    margin: 10px;
+    width: 380px;
+    height: 235px;
+    background-color: #ffd822;
+    float: left;
+}
+
+    .button3 > label {
+        color: aliceblue;
+        font-size: 70px;
+        margin-top: 60px;
+        margin-left: 65px;
+    }
+
+    .button3:hover {
+        background-color: #eec711;
+    }
+
+.button4 {
+    margin: 10px;
+    width: 380px;
+    height: 235px;
+    background-color: #ff1111;
+    float: left;
+}
+
+    .button4 > label {
+        color: aliceblue;
+        font-size: 70px;
+        margin-top: 60px;
+        margin-left: 72px;
+    }
+
+    .button4:hover {
+        background-color: #ee0000;
+    }
