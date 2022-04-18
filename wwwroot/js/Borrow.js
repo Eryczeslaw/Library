@@ -150,8 +150,10 @@ function getBooks() {
         listBooks = new Array(1);
 
         generateBooks();
+        listBooks.pop();
         bookselect = document.querySelector('#book' + count);
         listBooks.push(bookselect.value);
+        console.log(listBooks);
     });
 };
 
@@ -235,7 +237,7 @@ function updateSelect() {
 
 function addNext() {
     listBooks.pop();
-    bookselect = document.querySelector('#book' + count);
+    let bookselect = document.querySelector('#book' + count);
     listBooks.push(bookselect.value);
     count = count + 1;
 
