@@ -33,7 +33,7 @@
                             <label asp-for="Users.FirstOrDefault().AddDate"></label>
                         </th>
                         <th>
-                            <label asp-for="Users.FirstOrDefault().ModifiedDate"></label>
+                            <label>Books Borrowed</label>
                         </th>
                         <th></th>
                     </tr>
@@ -56,10 +56,15 @@
                             <td>
                                 @Html.DisplayFor(modelItem => user.AddDate)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => user.ModifiedDate)
+                            <td style="text-align: center">
+                                @{ 
+                                    int booksBorrowed = (from brw in Model.Borrows
+                                                         where brw.UserId == user.UserId
+                                                         select brw).Count();
+                                }
+                                @booksBorrowed
                             </td>
-                            <td>
+                            <td style="text-align: right">
                                 @{
                                     string disabled = "";
                                     if (Model.Borrows.Where(x => x.UserId == user.UserId).Count() > 0)

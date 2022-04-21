@@ -2,7 +2,6 @@ using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Library.Pages.Borrow
@@ -12,7 +11,6 @@ namespace Library.Pages.Borrow
         private readonly LibraryManagerContext db;
         private JsonAccess jsonAccess;
 
-        public IEnumerable<BookModel> AvailableBooks { get; set; }
 
         public IndexModel(LibraryManagerContext _db)
         {
@@ -73,6 +71,7 @@ namespace Library.Pages.Borrow
             if (isBorrow)
             {
                 BorrowModel result = db.Borrows.SingleOrDefault(x => x.BorrowId == borrowId);
+                result.ToDate = DateTime.UtcNow;
                 result.IsReturned = true;
                 db.SaveChanges();
             }

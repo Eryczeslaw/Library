@@ -158,9 +158,9 @@ function acceptAdd() {
             data: JSON.stringify(book),
             headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
         })
-
-        addDialog.close();
-        location.reload();
+            .always(function () {
+                location.reload();
+            });
     }
 }
 
@@ -189,9 +189,9 @@ function acceptEdit() {
             data: JSON.stringify(book),
             headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
         })
-
-        editDialog.close();
-        location.reload();
+            .always(function () {
+                location.reload();
+            });
     }
 }
 

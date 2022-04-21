@@ -17,11 +17,7 @@ namespace Library.Pages.User
             db = _db;
         }
 
-        public void OnGet()
-        {
-        }
-
-        public IActionResult OnPost(UserModel NewUser)
+        public IActionResult OnPost()
         {
             if (ModelState.IsValid)
             {

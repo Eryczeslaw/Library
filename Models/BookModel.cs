@@ -27,6 +27,8 @@ namespace Library.Models
 
         [DisplayName("ISBN")]
         [Required(ErrorMessage = "The ISBN field is required")]
+        [RegularExpression(@"^[0-9]{1,3}-^[0-9]{1,3}-^[0-9]{1,3}$",
+         ErrorMessage = "Entered ISBN in the format 123-456-789")]
         [MaxLength(50)]
         public string ISBN { get; set; }
 

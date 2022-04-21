@@ -18,11 +18,11 @@ namespace Library.Pages.Borrow
 
         public void SaveBorrowdBooks()
         {
-            var BorrowedBooks = (from book in db.Books
-                                 from borrow in db.Borrows
-                                 from user in db.Users
-                                 where book.BookId == borrow.BookId && user.UserId == borrow.UserId && borrow.IsReturned == false
-                                 select new { borrow.BorrowId, book.BookId, book.Author, book.Title, user.FirstName, user.LastName });
+            var BorrowedBooks = from book in db.Books
+                                from borrow in db.Borrows
+                                from user in db.Users
+                                where book.BookId == borrow.BookId && user.UserId == borrow.UserId && borrow.IsReturned == false
+                                select new { borrow.BorrowId, book.BookId, book.Author, book.Title, UserName = user.FirstName + " " + user.LastName, borrow.FromDate, borrow.ToDate };
 
 
             StreamWriter streamWriter;
@@ -47,12 +47,11 @@ namespace Library.Pages.Borrow
         {
             var UsersWithBooks = (from user in db.Users
                                   from borrow in db.Borrows
-                                  where user.UserId == borrow.UserId
+                                  where user.UserId == borrow.UserId && borrow.IsReturned == false
                                   select new
                                   {
                                       user.UserId,
-                                      user.FirstName,
-                                      user.LastName,
+                                      UserName = user.FirstName + " " + user.LastName,
                                       user.Email,
                                       Count = (from br in db.Borrows
                                                where br.UserId == borrow.UserId && br.IsReturned == false

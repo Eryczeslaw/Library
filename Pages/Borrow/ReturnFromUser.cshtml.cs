@@ -1,6 +1,7 @@
 using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,6 +39,7 @@ namespace Library.Pages.Borrow
                 if (isBorrow)
                 {
                     BorrowModel result = db.Borrows.SingleOrDefault(x => x.BorrowId == borrow);
+                    result.ToDate = DateTime.UtcNow;
                     result.IsReturned = true;
                     db.SaveChanges();
                 }

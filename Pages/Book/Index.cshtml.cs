@@ -1,7 +1,9 @@
 using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Library.Pages.Book
@@ -22,7 +24,7 @@ namespace Library.Pages.Book
 
         public void OnPostAddBook([FromBody] BookModel book)
         {
-            if (ModelState.IsValid)
+            if (Validation(book))
             {
                 db.Books.Add(book);
 
@@ -33,21 +35,63 @@ namespace Library.Pages.Book
 
         public void OnPostEditBook([FromBody] BookModel book)
         {
-            if (ModelState.IsValid)
+            string[] AuthorAndId = book.Author.Split(";#");
+            if (int.TryParse(AuthorAndId[^1], out int bookId))
             {
-                string[] AuthorAndId = book.Author.Split(";#");
-                BookModel result = db.Books.SingleOrDefault(x => x.BookId == int.Parse(AuthorAndId[1]));
-                result.Author = AuthorAndId[0];
-                result.Title = book.Title;
-                result.ReleaseDate = book.ReleaseDate;
-                result.ISBN = book.ISBN;
-                result.BookGenreId = book.BookGenreId;
-                result.Count = book.Count;
-                result.ModifiedDate = book.ModifiedDate;
+                book.BookId = bookId;
+                book.Author = AuthorAndId[0];
 
-                db.SaveChanges();
-                bookJson.Save();
+                if (db.Books.Where(x => x.BookId == book.BookId).Any())
+                {
+                    if (Validation(book))
+                    {
+                        BookModel result = db.Books.SingleOrDefault(x => x.BookId == book.BookId);
+                        result.Author = AuthorAndId[0];
+                        result.Title = book.Title;
+                        result.ReleaseDate = book.ReleaseDate;
+                        result.ISBN = book.ISBN;
+                        result.BookGenreId = book.BookGenreId;
+                        result.Count = book.Count;
+                        result.ModifiedDate = book.ModifiedDate;
+
+                        db.SaveChanges();
+                        bookJson.Save();
+                    }
+                }
             }
+        }
+
+        public bool Validation(BookModel book)
+        {
+            if (string.IsNullOrWhiteSpace(book.Author))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(book.Title))
+            {
+                return false;
+            }
+
+            if (!DateTime.TryParse(book.ReleaseDate.ToString(), out DateTime date))
+            {
+                return false;
+            }
+
+            RegularExpressionAttribute regularExpressionISBN = new RegularExpressionAttribute(@"^[0-9]{1,3}-[0-9]{1,3}-[0-9]{1,3}$");
+            if (!regularExpressionISBN.IsValid(book.ISBN))
+            {
+                return false;
+            }
+            if (!BookGenres.Where(x => x.BookGenreId == book.BookGenreId).Any())
+            {
+                return false;
+            }
+            if (!int.TryParse(book.Count.ToString(), out int count))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

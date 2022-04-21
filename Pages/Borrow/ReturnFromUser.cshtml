@@ -19,66 +19,73 @@ else if (Model.Borrows.Count() > 1)
 
 @if (Model.Borrows.Count() > 0)
 {
-    <form method="post">
-        <div class="col-12 p-2 mt3" style="height: 700px">
-            <table class="table table-striped border">
-                <tr class="table-secondary">
-                    <th>
-                        <label asp-for="Books.FirstOrDefault().Title"></label>
-                    </th>
-                    <th>
-                        <label asp-for="Books.FirstOrDefault().Author"></label>
-                    </th>
-                    <th>
-                        <label asp-for="Books.FirstOrDefault().ReleaseDate"></label>
-                    </th>
-                    <th>
-                        <label>Genre</label>
-                    </th>
-                    <th></th>
-                </tr>
+<form method="post">
+    <div class="col-12 p-2 mt3" style="height: 700px">
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>
+                    <label asp-for="Books.FirstOrDefault().Title"></label>
+                </th>
+                <th>
+                    <label asp-for="Books.FirstOrDefault().Author"></label>
+                </th>
+                <th>
+                    <label asp-for="Books.FirstOrDefault().ReleaseDate"></label>
+                </th>
+                <th>
+                    <label>Genre</label>
+                </th>
+                <th>
+                    <label>Return</label>
+                </th>
+            </tr>
 
-                @foreach (var br in Model.Borrows)
-                {
-                    <tr>
-                        <td>
-                            @{
-                                var book = from bk in Model.Books
-                                           where bk.BookId == br.BookId
-                                           select bk;
-                            }
-                            @book.FirstOrDefault().Title
-                        </td>
-                        <td>
-                            @book.FirstOrDefault().Author
-                        </td>
-                        <td>
-                            @book.FirstOrDefault().ReleaseDate.ToString("d")
-                        </td>
-                        <td>
-                            @{
-                                var genre = from gn in Model.Genre
-                                            from bk in Model.Books
-                                            where bk.BookId == br.BookId && bk.BookGenreId == gn.BookGenreId
-                                            select gn.Name;
-                            }
-                            @genre.FirstOrDefault()
-                        </td>
-                        <td>
-                            <input name="AreChecked" type="checkbox" value="@br.BorrowId" /><br />
-                        </td>
-                    </tr>
-                }
-            </table>
-        </div>
-        <div class="col-3">
+            @foreach (var br in Model.Borrows)
+{
+                <tr>
+                    <td>
+                        @{
+    var book = from bk in Model.Books
+               where bk.BookId == br.BookId
+               select bk;
+                        }
+                        @book.FirstOrDefault().Title
+                    </td>
+                    <td>
+                        @book.FirstOrDefault().Author
+                    </td>
+                    <td>
+                        @book.FirstOrDefault().ReleaseDate.ToString("d")
+                    </td>
+                    <td>
+                        @{
+    var genre = from gn in Model.Genre
+                from bk in Model.Books
+                where bk.BookId == br.BookId && bk.BookGenreId == gn.BookGenreId
+                select gn.Name;
+                        }
+                        @genre.FirstOrDefault()
+                    </td>
+                    <td>
+                        <input name="AreChecked" type="checkbox" value="@br.BorrowId" /><br />
+                    </td>
+                </tr>
+    }
+        </table>
+    </div>
+    <div class="form-group row">
+        <div class="col-2">
             <input type="submit" value="Return" class="btn btn-primary form-control" />
         </div>
-    </form>
-}
-else
-{
+        <div class="col-2">
+            <a asp-page="Index" class="btn btn-dark form-control">Cancel</a>
+        </div>
+    </div>
+</form>
+    }
+    else
+    {
     <p><h2>The user does not borrow any book</h2></p>
-}
+    }
 
 

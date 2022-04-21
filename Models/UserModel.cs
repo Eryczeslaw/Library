@@ -36,7 +36,6 @@ namespace Library.Models
 
         [DisplayName("Add Date")]
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "The Add Date field is required")]
         public DateTime AddDate { get; set; }
 
         [DisplayName("Modified")]

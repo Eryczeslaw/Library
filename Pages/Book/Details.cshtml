@@ -52,9 +52,9 @@
                 </td>
                 <td>
                     @{
-                        IEnumerable<string> genre = from dictBG in Model.DictBookGenres
-                                                    where Model.Book.BookGenreId == dictBG.BookGenreId
-                                                    select dictBG.Name;
+    IEnumerable<string> genre = from dictBG in Model.DictBookGenres
+                                where Model.Book.BookGenreId == dictBG.BookGenreId
+                                select dictBG.Name;
                     }
                     @genre.FirstOrDefault()
                 </td>
@@ -80,7 +80,7 @@
 
     <div class="col-6 p-2 mt3">
         @if (Model.CurrentStatus.Count() > 0)
-        {
+{
             <table class="table table-striped border">
                 <tr class="table-secondary">
                     <th>
@@ -99,9 +99,9 @@
                     <tr>
                         <td>
                             @{
-                                var user = from usr in Model.Users
-                                           where usr.UserId == crs.UserId
-                                           select usr;
+    var user = from usr in Model.Users
+               where usr.UserId == crs.UserId
+               select usr;
                             }
                             @user.FirstOrDefault().FirstName
                             @user.FirstOrDefault().LastName
@@ -114,18 +114,18 @@
                         </td>
                     </tr>
 
-                }
+    }
             </table>
-        }
-        else
-        {
+    }
+    else
+    {
             <p><h3>No one is borrowing this book</h3></p>
-        }
+    }
     </div>
 
     <div class="col-6 p-2 mt3">
-        @if (Model.CurrentStatus.Count() > 0)
-        {
+        @if (Model.Borrows.Count() > 0)
+{
             <table class="table table-striped border">
                 <tr class="table-secondary">
                     <th>
@@ -144,9 +144,9 @@
                     <tr>
                         <td>
                             @{
-                                var user = from usr in Model.Users
-                                           where usr.UserId == brw.UserId
-                                           select usr;
+    var user = from usr in Model.Users
+               where usr.UserId == brw.UserId
+               select usr;
                             }
                             @user.FirstOrDefault().FirstName
                             @user.FirstOrDefault().LastName
@@ -159,13 +159,13 @@
                         </td>
                     </tr>
 
-                }
+    }
             </table>
-        }
-        else
-        {
+    }
+    else
+    {
             <p><h3>No one has borrowed this book</h3></p>
-        }
+    }
     </div>
 
 </div>

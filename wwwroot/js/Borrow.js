@@ -20,8 +20,9 @@ $(document).ready(function () {
                     fields: {
                         Title: { type: "string" },
                         Author: { type: "string" },
-                        FirstName: { type: "string" },
-                        LastName: { type: "string" },
+                        UserName: { type: "string" },
+                        FromDate: { type: "date" },
+                        ToDate: { type: "date"}
                     }
                 }
             },
@@ -37,8 +38,9 @@ $(document).ready(function () {
             columns: [
                 { field: "Title", title: "Title" },
                 { field: "Author", title: "Author" },
-                { field: "FirstName", title: "FirstName" },
-                { field: "LastName", title: "LastName" },
+                { field: "UserName", title: "User name" },
+                { field: "FromDate", format: "{0:d}", title: "From date", width: "100px" },
+                { field: "ToDate", format: "{0:d}", title: "To date", width: "100px" },
                 { command: { text: "Return", click: returnBook }, width: "85px" }
             ],
         });
@@ -54,8 +56,7 @@ $(document).ready(function () {
                 model: {
                     id: "UserId",
                     fields: {
-                        FirstName: { type: "string" },
-                        LastName: { type: "string" },
+                        UserName: { type: "string" },
                         Email: { type: "string" },
                         Count: { type: "number" }
                     }
@@ -71,15 +72,12 @@ $(document).ready(function () {
             sortable: true,
             height: 300,
             columns: [
-                { field: "FirstName", title: "FirstName" },
-                { field: "LastName", title: "LastName" },
+                { field: "UserName", title: "User Name" },
                 { field: "Email", title: "Email" },
                 { field: "Count", title: "Number of books" },
             ],
             editable: "incell",
             edit: function (e) {
-                console.log(e);
-
                 window.location.href = '/Borrow/ReturnFromUser?id=' + e.model.UserId;
             }
         });
@@ -141,7 +139,6 @@ function addBorrow() {
 
 var count;
 var listBooks;
-var bookselect;
 
 function getBooks() {
     $.get("JsonData/ThisAvailableBooks.json", function (data) {
@@ -150,10 +147,9 @@ function getBooks() {
         listBooks = new Array(1);
 
         generateBooks();
-        listBooks.pop();
-        bookselect = document.querySelector('#book' + count);
-        listBooks.push(bookselect.value);
-        console.log(listBooks);
+
+        let bookselect = document.querySelector('#book' + count);
+        listBooks[0] = bookselect.value;
     });
 };
 
@@ -237,6 +233,7 @@ function updateSelect() {
 
 function addNext() {
     listBooks.pop();
+
     let bookselect = document.querySelector('#book' + count);
     listBooks.push(bookselect.value);
     count = count + 1;
